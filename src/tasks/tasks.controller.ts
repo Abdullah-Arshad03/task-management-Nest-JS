@@ -1,16 +1,33 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { Task } from './tasks.model';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTask } from './dto/update-task.dto';
+import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private taskServices: TasksService) {} // we pass the
 
   @Get()
-  getAllTasks(): Task[] {
-    console.log('in the get');
+  getTasks(@Query() filterDto : GetTaskFilterDto): Task[] {          // renamed to getTasks() from the getAllTasks because now we are to get the Tasks on the base of the filters
+
+    // if we have any filters defined, call taskServices.getTaskWiFilter() otherwise get All Tasks
+    // the filters are coming with the Query Parameters.
+
+
+    if(Object.keys(filterDto).length){
+      return this.taskServices.getTasksWithFilterDto(filterDto)
+      //...
+    }
+    else{
+      // getAllTasks
     return this.taskServices.getAllTasks();
+
+    }
+
+
+    
   }
 
   @Get('/:id')
@@ -34,8 +51,8 @@ export class TasksController {
   }
 
   @Patch('/:id')
-  updateTheTaskStatus(@Param('id') id : string){
-    console.log('this is the id of the updated task with updated Status: ', id)
+  updateTheTaskStatus(@Param('id') id : string , @Body() updateTask : UpdateTask ): Task[]{
+   return this.taskServices.updateTheTaskStatus(id , updateTask)
   }
 
 }
