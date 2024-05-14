@@ -10,7 +10,7 @@ export interface Task{
     //we are saying that, status only allow values present in one of the enumeration, like present in the enum.
 }
 
-enum TaskStatus{
+export enum TaskStatus{
     OPEN = 'OPEN',
     IN_PROGRESS = 'IN_PROGESS',
     DONE = 'DONE'
