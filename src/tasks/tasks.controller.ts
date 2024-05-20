@@ -31,10 +31,10 @@ export class TasksController {
   // }
 
 
-  @Get('/:id')
-  getTaskById(@Param('id') id : string) : Promise<Task> {
-    return this.taskServices.getTaskById(id)
-  }
+  // @Get('/:id')
+  // getTaskById(@Param('id') id : string) : Promise<Task> {
+  //   return this.taskServices.getTaskById(id)
+  // }
   
   @Post()
   createTask(@Body() createTaskDto : CreateTaskDto): Promise<Task>{
