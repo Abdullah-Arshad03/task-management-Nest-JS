@@ -1,23 +1,16 @@
-import {
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { Task } from './task.entity';
-// import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { Repository } from 'typeorm';
-// import { TaskRespository } from './task.repository';
-import { BadRequestException } from '@nestjs/common';
-import { TaskStatus } from './task-status.enum';
+import { UpdateTask } from './dto/update-task.dto';
+import { Task } from './task.entity';
 import { TaskRepository } from './task.repository';
-import { Inject } from '@nestjs/common';
-
+import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 
 @Injectable()
 export class TasksService {
+  
   constructor(
-    @Inject('TaskRepository') private  taskRepository: TaskRepository,
+    @Inject('TaskRepository') private taskRepository: TaskRepository,
   ) {}
 
   // async getTaskById(id: string): Promise<Task> {
@@ -29,10 +22,24 @@ export class TasksService {
   //   }
 
   //   return task;
-  // }
 
-//   async createTask(createTaskdto: CreateTaskDto): Promise<Task> {
-    async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-          return this.taskRepository.createTask(createTaskDto)
+  getTasks(filterDto : GetTaskFilterDto): Promise<Task[]>{
+    return this.taskRepository.getTasks(filterDto)
+  }
 
-}}
+  getTaskById(id: string): Promise<Task> {
+    return this.taskRepository.getTaskById(id);
+  }
+
+  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.taskRepository.createTask(createTaskDto);
+  }
+
+   deleteTask(id: string): Promise<void> {
+    return this.taskRepository.deleteTask(id);
+  }
+
+   updateTaskStatus(id :string , updateTaskStatus: UpdateTask) : Promise<Task>{
+    return this.taskRepository.updateTaskStatus(id , updateTaskStatus)
+  }
+}
