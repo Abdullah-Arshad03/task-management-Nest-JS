@@ -1,33 +1,34 @@
 import { NotFoundException } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { GetTaskFilterDto } from './dto/get-task-filter.dto';
+import { UpdateTask } from './dto/update-task.dto';
 import { TaskStatus } from './task-status.enum';
 import { Task } from './task.entity';
-import { UpdateTask } from './dto/update-task.dto';
-import { GetTaskFilterDto } from './dto/get-task-filter.dto';
-
 
 export class TaskRepository extends Repository<Task> {
   constructor(private datasource: DataSource) {
     super(Task, datasource.createEntityManager());
   }
 
-  async getTasks(filterDto: GetTaskFilterDto): Promise<Task[]>{
-  const {search , status} = filterDto
-   const query =  this.createQueryBuilder('tasks')
+  async getTasks(filterDto: GetTaskFilterDto): Promise<Task[]> {
+    const { search, status } = filterDto;
+    const query = this.createQueryBuilder('tasks');
 
+    if (search) {
+      query.andWhere(
+        'LOWER(tasks.title) LIKE LOWER(:search) OR LOWER(tasks.description) LIKE LOWER(:search)',
+        { search: `%${search}%` },
+      );
+    }
 
-if(search){
-query.andWhere('tasks.title LIKE :search OR tasks.description LIKE :search', {search : `%${search}%`})
-}
+    if (status) {
+      query.andWhere('tasks.status = :status', { status: status });
+    }
 
-if(status){
-  query.andWhere('tasks.status = :status', {status:status})
-}
+    const Tasks = await query.getMany();
 
-   const Tasks =await query.getMany()
-
-   return Tasks
+    return Tasks;
   }
 
   async getTaskById(id: string): Promise<Task> {
