@@ -9,10 +9,10 @@ export class User {
     @Column()
     username : string
 
-    @Column()
+    @Column({unique : true})
     email : string
 
-    @PrimaryGeneratedColumn('uuid')
+    @Column()
     password: string 
  
 }

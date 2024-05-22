@@ -8,8 +8,13 @@ import { UserDto } from './dto/user-dto';
 export class AuthController {
     constructor(private authService: AuthService ){}
 
-    @Post()
-     createrUser(@Body() userDto: UserDto ): Promise<User>{
-     return this.authService.createUser(userDto)
+    @Post('/signup')
+     signUp(@Body() userDto: UserDto ): Promise<User>{
+     return this.authService.signUp(userDto)
+     }
+
+     @Post('/signin')
+     signIn(@Body() userDto : UserDto): Promise<string>{
+        return this.authService.signIn(userDto)
      }
 }

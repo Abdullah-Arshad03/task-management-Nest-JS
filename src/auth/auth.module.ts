@@ -9,4 +9,5 @@ import { User } from './auth.entity';
   providers: [AuthService ],
   controllers: [AuthController]
 })
-export class AuthModule {}
+export class AuthModule {} 
+

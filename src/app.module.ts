@@ -6,6 +6,7 @@ import { Task } from './tasks/task.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/auth.entity';
 
+
 @Module({
   imports: [
     TasksModule ,
@@ -25,3 +26,4 @@ import { User } from './auth/auth.entity';
   ],
 })
 export class AppModule {}
+
