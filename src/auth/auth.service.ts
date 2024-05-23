@@ -9,11 +9,14 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './auth.entity';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { Payload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>, // here repository is created of user
+    private jwtService : JwtService
   ) {}
 
   async signUp(userDto: UserDto): Promise<User> {
@@ -31,7 +34,7 @@ export class AuthService {
     // if(emailExists){
     //     throw new ConflictException('Email already Exists')
     // }
-    try {
+try{
       const user = this.userRepository.create({
         username: username,
         email: email,
@@ -49,27 +52,28 @@ export class AuthService {
     }
   }
 
-  async signIn(userDto : UserDto):Promise<string>{
-    try {
-        const {email , password}= userDto
+  async signIn(userDto : UserDto):Promise<{accessToken : string}>{
+  
+        const {username,email , password}= userDto
 
-        const userExit = this.userRepository.findOne({where : {
+        const userExit = await this.userRepository.findOne({where : {
             email : email
         }})
     
         if (!userExit){
-            throw new UnauthorizedException('check credentials!')
+            throw new UnauthorizedException('Email or password is incorrect!')
         }
-    
-       const isTrue =  await bcrypt.compare(password , (await userExit).password)
+       const isTrue =  await bcrypt.compare(password ,  userExit.password)
        if(!isTrue){
-        throw new UnauthorizedException('Email or password is incorrect!')
+       throw new UnauthorizedException('Email or password is incorrect!')
        }
 
-      return isTrue  
-    } catch (error) {
-        console.log('this is the error while signing in : ', error)
-    }
-    
+       const payload : Payload = {
+         username : username , 
+         email : email
+       }
+
+       const accessToken = this.jwtService.sign(payload)
+      return {accessToken} 
   }
 }
