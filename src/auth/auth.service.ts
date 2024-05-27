@@ -61,11 +61,11 @@ try{
         }})
     
         if (!userExit){
-            throw new UnauthorizedException('Email or password is incorrect!')
+            throw new UnauthorizedException('Email or password is incorrect! ( userNotExist )')
         }
        const isTrue =  await bcrypt.compare(password ,  userExit.password)
        if(!isTrue){
-       throw new UnauthorizedException('Email or password is incorrect!')
+       throw new UnauthorizedException('Email or password is incorrect! ( is True )')
        }
 
        const payload : Payload = {
@@ -74,6 +74,8 @@ try{
        }
 
        const accessToken = this.jwtService.sign(payload)
-      return {accessToken} 
+       console.log('this is the accesstoken : ', accessToken)
+       return {accessToken} 
+
   }
 }

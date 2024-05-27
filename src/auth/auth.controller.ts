@@ -20,9 +20,9 @@ export class AuthController {
      }
 
      @Post('/test') // protected
-     @UseGuards(AuthGuard())
+     @UseGuards(AuthGuard()) // AuthGuard automatically go with the strategy
       test(@Req() req){
          console.log(req.user)
       }
      }
-
+    
