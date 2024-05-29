@@ -20,7 +20,6 @@ import { User } from './auth/auth.entity';
       autoLoadEntities : true ,
       synchronize : true,
       entities : [Task , User]
-       
     }),
     AuthModule
   ],

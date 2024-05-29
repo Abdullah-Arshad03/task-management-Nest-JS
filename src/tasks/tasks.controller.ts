@@ -6,6 +6,8 @@ import { UpdateTask } from './dto/update-task.dto';
 import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 import { Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/auth/auth.entity';
 // import { UpdateTask } from './dto/update-task.dto';
 // import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 
@@ -19,17 +21,15 @@ export class TasksController {
     return this.taskServices.getTasks(filterDto)
   }
 
-  
-
   @Get('/:id')
   getTaskById(@Param('id') id : string) : Promise<Task> {
     return this.taskServices.getTaskById(id)
   }
 
   @Post()
-  createTask(@Body() createTaskDto : CreateTaskDto): Promise<Task>{
+  createTask(@Body() createTaskDto : CreateTaskDto,  @GetUser() user : User): Promise<Task>{
 
-    return this.taskServices.createTask(createTaskDto)
+    return this.taskServices.createTask(createTaskDto, user)
 
   }
  @Delete('/:id')

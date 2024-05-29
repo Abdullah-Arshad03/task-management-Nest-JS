@@ -14,25 +14,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       secretOrKey: 'somesupersecret',
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      
     });
   }
 
   // fuction for validating the token
   async validate(payload: Payload): Promise<User> {
     const { email } = payload;
-console.log('in the validate - 1 ')
-    const user = this.userRepository.findOne({
+
+    const user = await this.userRepository.findOne({
       where: { email: email },
     });
-
     if (!user) {
-console.log('in the validate - 2 ( if user not there ) ')
-
     throw new UnauthorizedException('error in the strategy')
     }
-console.log('in the validate - 3 ( got user )')
-
+    console.log('this is the user from db in the validate : ', user)
     return user;
   }
 }
