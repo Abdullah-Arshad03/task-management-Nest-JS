@@ -61,9 +61,9 @@ export class TaskRepository extends Repository<Task> {
     return task;
   }
 
-  async deleteTask(id: string): Promise<void> {
+  async deleteTask(id: string , user: User): Promise<void> {
     const task = this.findOne({
-      where: { id: id },
+      where: { id: id , user : user },
     });
     if (!task) {
       throw new NotFoundException('nhi mila delete k liyeh!');
