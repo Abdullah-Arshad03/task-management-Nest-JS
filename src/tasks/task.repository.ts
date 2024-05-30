@@ -80,11 +80,12 @@ export class TaskRepository extends Repository<Task> {
   async updateTaskStatus(
     id: string,
     updateTaskStatusDto: UpdateTask,
+    user : User
   ): Promise<Task> {
     const { taskStatus } = updateTaskStatusDto;
 
-    const task = await this.findOne({ where: { id: id } });
-
+    const task = await this.findOne({ where: { id: id , user : user }  });
+ 
     if (!task) {
       throw new NotFoundException(`The Task with Id: ${id} not found!`);
     }

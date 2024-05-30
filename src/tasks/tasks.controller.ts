@@ -38,8 +38,7 @@ export class TasksController {
 
     }
     @Patch('/:id')
-    updateTaskStatus(@Param('id') id: string , @Body() updateTaskStatus: UpdateTask): Promise<Task>{
-      return this.taskServices.updateTaskStatus(id, updateTaskStatus)
+    updateTaskStatus(@Param('id') id: string , @Body() updateTaskStatus: UpdateTask , @GetUser() user : User): Promise<Task>{
+      return this.taskServices.updateTaskStatus(id, updateTaskStatus , user)
     }
-
 }

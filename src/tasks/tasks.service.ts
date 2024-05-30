@@ -39,7 +39,7 @@ export class TasksService {
     return this.taskRepository.deleteTask(id);
   }
 
-   updateTaskStatus(id :string , updateTaskStatus: UpdateTask) : Promise<Task>{
-    return this.taskRepository.updateTaskStatus(id , updateTaskStatus)
+   updateTaskStatus(id :string , updateTaskStatus: UpdateTask , user : User) : Promise<Task>{
+    return this.taskRepository.updateTaskStatus(id , updateTaskStatus , user)
   }
 }
