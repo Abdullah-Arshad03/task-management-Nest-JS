@@ -16,6 +16,9 @@ export class TaskRepository extends Repository<Task> {
     const { search, status } = filterDto;
     const query = this.createQueryBuilder('tasks');
 
+    const users = await this.find({where : { user : user}})
+    console.log('got from repo appoach: ' , users)
+
     query.where({user : user})
 
     if (search) {
@@ -34,13 +37,16 @@ export class TaskRepository extends Repository<Task> {
     return Tasks;
   }
 
-  async getTaskById(id: string): Promise<Task> {
-    const task = await this.findOne({ where: { id: id } });
+  async getTaskById(id: string , user: User): Promise<Task> {
 
+ 
+    const task = await this.findOne({where : { id : id, user : user}})
+
+   
     if (!task) {
       throw new NotFoundException();
     }
-    return task;
+    return task
   }
 
   async createTask(createTaskDto: CreateTaskDto , user: User): Promise<Task> {
@@ -70,6 +76,7 @@ export class TaskRepository extends Repository<Task> {
       throw new NotFoundException(`Task with ${id} not found!`);
     }
   }
+
   async updateTaskStatus(
     id: string,
     updateTaskStatusDto: UpdateTask,
