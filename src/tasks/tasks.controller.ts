@@ -23,22 +23,23 @@ export class TasksController {
 
   @Get('/:id')
   getTaskById(@Param('id') id : string , @GetUser() user : User) : Promise<Task> {
-    return this.taskServices.getTaskById(id, user)
+  return this.taskServices.getTaskById(id, user)
   }
-
   @Post()
   createTask(@Body() createTaskDto : CreateTaskDto,  @GetUser() user : User): Promise<Task>{
-
-    return this.taskServices.createTask(createTaskDto, user)
-
+  return this.taskServices.createTask(createTaskDto, user)
   }
- @Delete('/:id')
+  @Delete('/:id')
     deleteTask(@Param('id') id :string , @GetUser() user : User): void{
       this.taskServices.deleteTask(id, user)
-
     }
-    @Patch('/:id')
+  @Patch('/:id')
     updateTaskStatus(@Param('id') id: string , @Body() updateTaskStatus: UpdateTask , @GetUser() user : User): Promise<Task>{
       return this.taskServices.updateTaskStatus(id, updateTaskStatus , user)
     }
+
+    // @Get('/testing')
+    // testing(@Req() req):void{
+    //   console.log('this is the req in tasks tesing' , req)
+    // }
 }

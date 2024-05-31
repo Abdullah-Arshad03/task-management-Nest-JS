@@ -5,22 +5,21 @@ import { Task } from './tasks/task.entity';
 // import { TaskRespository } from './tasks/task.repository';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/auth.entity';
+import { ConfigModule } from '@nestjs/config';
 
 
 @Module({
   imports: [
-    TasksModule ,
+    ConfigModule.forRoot({
+      envFilePath : [`.env.stage.${process.env.STAGE}`]
+    }),
     TypeOrmModule.forRoot({
       type : 'postgres',
-      host: 'localhost',
-      port : 5432,
-      username : 'postgres',
-      password : 'imabdullah',
-      database : 'task-management',
       autoLoadEntities : true ,
       synchronize : true,
       entities : [Task , User]
     }),
+    TasksModule,
     AuthModule
   ],
 })
