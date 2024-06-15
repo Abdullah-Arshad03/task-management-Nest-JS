@@ -10,12 +10,16 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath : [`.env.stage.${process.env.STAGE}`]
-    }),
+    // ConfigModule.forRoot({
+    // envFilePath : [`.env.stage.${process.env.STAGE}`]
+    // }),
     TypeOrmModule.forRoot({
       type : 'postgres',
-      autoLoadEntities : true ,
+      host : 'localhost',
+      port : 5432,
+      username : 'postgres',
+      password : 'imabdullah',
+      autoLoadEntities : true,
       synchronize : true,
       entities : [Task , User]
     }),
