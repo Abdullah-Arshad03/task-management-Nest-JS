@@ -21,6 +21,7 @@ export class TaskRepository extends Repository<Task> {
 
     query.where({user : user})
 
+
     if (search) {
       query.andWhere(
         '(LOWER(tasks.title) LIKE LOWER(:search) OR LOWER(tasks.description) LIKE LOWER(:search))',
@@ -38,11 +39,8 @@ export class TaskRepository extends Repository<Task> {
   }
 
   async getTaskById(id: string , user: User): Promise<Task> {
-
- 
-    const task = await this.findOne({where : { id : id, user : user}})
-
-   
+    
+    const task = await this.findOne({where : { id : id, user : user}})   
     if (!task) {
       throw new NotFoundException();
     }
@@ -75,6 +73,7 @@ export class TaskRepository extends Repository<Task> {
     if (deletedOne.affected === 0) {
       throw new NotFoundException(`Task with ${id} not found!`);
     }
+
   }
 
   async updateTaskStatus(
@@ -95,7 +94,4 @@ export class TaskRepository extends Repository<Task> {
     const taskUpdated = await this.save(task);
     return taskUpdated;
   }
-
-  
-  
 }
