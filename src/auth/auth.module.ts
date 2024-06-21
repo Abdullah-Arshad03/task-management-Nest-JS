@@ -17,7 +17,6 @@ import { JwtStrategy } from './jwt.strategy';
       expiresIn : 3600
     }
   })
-
 ],
   providers: [AuthService , JwtStrategy ],
   controllers: [AuthController],

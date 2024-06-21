@@ -8,13 +8,18 @@ import { Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/auth.entity';
+import { ConfigService } from '@nestjs/config';
 // import { UpdateTask } from './dto/update-task.dto';
 // import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 
 @Controller('tasks') 
 @UseGuards(AuthGuard())
 export class TasksController {
-  constructor(private taskServices: TasksService) {} 
+  constructor(private taskServices: TasksService,
+    private config: ConfigService
+  ) {
+    console.log(config.get('TEST'))
+  } 
 
   @Get()
   getTasks(@Query() filterDto: GetTaskFilterDto , @GetUser() user: User ): Promise<Task[]>{

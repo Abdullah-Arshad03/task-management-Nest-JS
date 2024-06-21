@@ -5,6 +5,7 @@ import { TaskRepository } from './task.repository';
 import { TasksController } from './tasks.controller';
 import { TasksService } from './tasks.service';
 import { AuthModule } from 'src/auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 
 // import { TaskRespository } from './task.repository';
@@ -12,7 +13,7 @@ import { AuthModule } from 'src/auth/auth.module';
 // import { TaskRespository } from './task.repository';
 
 @Module({
-  imports : [TypeOrmModule.forFeature([TaskRepository]) , AuthModule],
+  imports : [ ConfigModule,  TypeOrmModule.forFeature([TaskRepository]) , AuthModule],
   controllers: [TasksController],
   providers: [TasksService,
     {
