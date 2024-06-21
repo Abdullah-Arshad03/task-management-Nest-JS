@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TasksModule } from './tasks/tasks.module';
-import { TypeOrmModule, TypeOrmModuleAsyncOptions, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModule} from '@nestjs/typeorm';
 import { Task } from './tasks/task.entity';
 // import { TaskRespository } from './tasks/task.repository';
 import { AuthModule } from './auth/auth.module';
@@ -20,8 +20,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           autoLoadEntities: true,
           synchronize: true,
           entities: [Task, User],
-          host:  configService.get('DB_HOST'),
-          port: configService.get('DB_PORT'),
+          host:      configService.get('DB_HOST'),
+          port:      configService.get('DB_PORT'),
           username:  configService.get('DB_USERNAME'),
           password:  configService.get('DB_PASSWORD'),
           database:  configService.get('DB_DATABASE'),
