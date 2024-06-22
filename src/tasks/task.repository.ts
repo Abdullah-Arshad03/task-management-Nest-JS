@@ -5,7 +5,7 @@ import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 import { UpdateTask } from './dto/update-task.dto';
 import { TaskStatus } from './task-status.enum';
 import { Task } from './task.entity';
-import { User } from 'c/auth/auth.entity';
+import { User } from '../auth/auth.entity';
 
 export class TaskRepository extends Repository<Task> {
   constructor(private datasource: DataSource) {

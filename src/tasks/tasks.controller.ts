@@ -9,8 +9,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../auth/auth.entity';
 import { ConfigService } from '@nestjs/config';
-// import { UpdateTask } from './dto/update-task.dto';
-// import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 
 @Controller('tasks') 
 @UseGuards(AuthGuard())
